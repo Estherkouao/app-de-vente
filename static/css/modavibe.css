@@ -12,48 +12,11 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition-duration:.01ms!important;animation-duration:.01ms!important}}
 
 .brand-mark{width:112px;height:52px;object-fit:contain}.hero-video{display:block;width:100%;height:100%;object-fit:cover}
-.whatsapp-float{position:fixed;right:24px;bottom:24px;z-index:40;display:grid;width:76px;height:76px;place-items:center;border:3px solid var(--paper);border-radius:50%;background:#25D366;color:#fff;box-shadow:0 12px 24px rgba(29,39,37,.2);transition:transform .18s var(--ease),box-shadow .18s var(--ease)}.whatsapp-float:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 16px 28px rgba(29,39,37,.26)}.whatsapp-float>span{display:grid;width:43px;height:43px;place-items:center;border:3px solid currentColor;border-radius:50%;font-size:29px;font-weight:900;line-height:1;transform:rotate(-18deg)}.whatsapp-float:focus-visible{outline:3px solid var(--coral);outline-offset:4px}
-@media(max-width:520px){.whatsapp-float{right:16px;bottom:16px;width:66px;height:66px}.whatsapp-float>span{width:38px;height:38px;font-size:25px}}
-
-.whatsapp-float {
-    position: fixed;
-    right: 25px;
-    bottom: 25px;
-
-    width: 60px;
-    height: 60px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background-color: #25D366;
-    color: #fff;
-
-    border-radius: 50%;
-    text-decoration: none;
-
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-
-    z-index: 9999;
-
-    transition: all 0.3s ease;
-}
-
-.whatsapp-float i {
-    font-size: 34px;
-}
-
-.whatsapp-float:hover {
-    transform: scale(1.1);
-    background-color: #20bd5a;
-    color: #fff;
-}
+.whatsapp-float{position:fixed;right:24px;bottom:24px;z-index:9999;display:grid;width:76px;height:76px;place-items:center;border:3px solid var(--paper);border-radius:50%;background:#25D366;color:#fff;box-shadow:0 12px 24px rgba(29,39,37,.2);transition:transform .18s var(--ease),box-shadow .18s var(--ease)}.whatsapp-float:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 16px 28px rgba(29,39,37,.26)}.whatsapp-float>span{display:grid;width:43px;height:43px;place-items:center;border:3px solid currentColor;border-radius:50%;font-size:29px;font-weight:900;line-height:1;transform:rotate(-18deg)}.whatsapp-float:focus-visible{outline:3px solid var(--coral);outline-offset:4px}
 
 /* Full-width product carousel and larger floating WhatsApp button. */
-.whatsapp-float{width:84px;height:84px;right:24px;bottom:24px}.whatsapp-float>span{width:48px;height:48px;font-size:32px}
 .flash-section{width:100%;max-width:none;padding-left:0;padding-right:0;overflow:hidden}.flash-topline{padding-left:24px;padding-right:24px}.product-rail-wrap{width:100%;}.product-rail{width:100%;margin:0;padding:0 24px 25px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory}
-@media(max-width:520px){.whatsapp-float{width:74px;height:74px;right:16px;bottom:16px}.whatsapp-float>span{width:43px;height:43px;font-size:28px}.flash-topline{padding-left:16px;padding-right:16px}.product-rail{padding-left:16px;padding-right:16px}}
+@media(max-width:520px){.whatsapp-float{width:74px;height:74px;right:16px;bottom:max(16px,env(safe-area-inset-bottom));z-index:9999}.whatsapp-float>span{width:43px;height:43px;font-size:28px}.flash-topline{padding-left:16px;padding-right:16px}.product-rail{padding-left:16px;padding-right:16px}}
 
 
 /* Keep every product card aligned while the rail moves horizontally. */

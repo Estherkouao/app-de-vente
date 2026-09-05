@@ -26,5 +26,21 @@ def home(request):
 	return render(request, "home.html", {
 		"styles": styles or DEFAULT_STYLES,
 		"products": products or DEFAULT_PRODUCTS,
-		"whatsapp_number": "",
+		"whatsapp_number": "+2250712687635",
+		"active_filter": request.GET.get("style", ""),
+	})
+
+
+def filter_products(request):
+	style_name = request.GET.get("style", "")
+	styles = list(Style.objects.filter(active=True))
+	if style_name:
+		products = list(Product.objects.filter(active=True, style__name=style_name).select_related("style"))
+	else:
+		products = list(Product.objects.filter(active=True).select_related("style"))
+	return render(request, "home.html", {
+		"styles": styles or DEFAULT_STYLES,
+		"products": products or DEFAULT_PRODUCTS,
+		"whatsapp_number": "+2250700000000",
+		"active_filter": style_name,
 	})

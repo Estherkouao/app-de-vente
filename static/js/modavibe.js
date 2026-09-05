@@ -42,12 +42,24 @@
 
   const categoryRail = document.querySelector('#category-rail');
   const activeCategory = document.querySelector('#active-category');
+  const initialFilter = new URLSearchParams(window.location.search).get('style');
+  if (initialFilter && categoryRail) {
+    const initialButton = categoryRail.querySelector(`[data-category="${initialFilter}"]`);
+    if (initialButton) initialButton.click();
+  }
   document.querySelectorAll('[data-category]').forEach(function (button) {
-    button.addEventListener('click', function () {
+    button.addEventListener('click', function (event) {
+      event.preventDefault();
+      const selectedCategory = button.dataset.category;
       document.querySelectorAll('[data-category]').forEach((item) => item.classList.remove('selected'));
       button.classList.add('selected');
-      if (activeCategory) activeCategory.textContent = button.dataset.category;
-      showToast(button.dataset.category + ' : sélection activée');
+      document.querySelectorAll('[data-product-style]').forEach(function (product) {
+        const visible = selectedCategory === '__all__' || product.dataset.productStyle.toLowerCase() === selectedCategory.toLowerCase();
+        product.style.display = visible ? '' : 'none';
+      });
+      if (activeCategory) activeCategory.textContent = selectedCategory === '__all__' ? 'Tous' : selectedCategory;
+      showToast(selectedCategory === '__all__' ? 'Tous les articles affichés' : selectedCategory + ' : sélection activée');
+      if (productRail) productRail.scrollTo({ left: 0, behavior: 'smooth' });
     });
   });
 
