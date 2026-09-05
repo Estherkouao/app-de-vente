@@ -51,7 +51,7 @@
     <div class="dashboard-inner">
       <header class="dashboard-head">
         <div><img src="{% static 'media/jordy-cap-logo.png' %}" alt="Jordy Cap"><h1>Tableau de bord</h1></div>
-        <div class="dashboard-actions"><a href="{% url 'home' %}">Voir le site ↗</a><form method="post" action="{% url 'account:logout' %}">{% csrf_token %}<button type="submit">Se déconnecter</button></form></div>
+        <div class="dashboard-actions"><a href="{% url 'vente:home' %}">Voir le site ↗</a><form method="post" action="{% url 'account:logout' %}">{% csrf_token %}<button type="submit">Se déconnecter</button></form></div>
       </header>
       {% for message in messages %}<div class="dashboard-message">{{ message }}</div>{% endfor %}
             <section class="dashboard-counters" aria-label="Résumé du catalogue">
