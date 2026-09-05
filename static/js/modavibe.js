@@ -1,0 +1,113 @@
+/* ModaVibe — interactions autonomes. Placez ce fichier dans votre dossier static/js/. */
+(function () {
+  'use strict';
+
+  const menuButton = document.querySelector('[data-menu-toggle]');
+  const navigation = document.querySelector('#main-nav');
+  const toast = document.querySelector('#toast');
+  let toastTimer;
+
+  function showToast(message) {
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add('visible');
+    window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(() => toast.classList.remove('visible'), 2400);
+  }
+
+  if (menuButton && navigation) {
+    menuButton.addEventListener('click', function () {
+      const open = navigation.classList.toggle('is-open');
+      menuButton.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+      menuButton.querySelector('span').textContent = open ? '×' : '☰';
+    });
+
+    navigation.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        navigation.classList.remove('is-open');
+        menuButton.querySelector('span').textContent = '☰';
+        menuButton.setAttribute('aria-label', 'Ouvrir le menu');
+      });
+    });
+  }
+
+  document.querySelectorAll('[data-scroll]').forEach(function (button) {
+    button.addEventListener('click', function () {
+      const rail = document.getElementById(button.dataset.scroll);
+      if (!rail) return;
+      const amount = button.dataset.direction === 'next' ? 330 : -330;
+      rail.scrollBy({ left: amount, behavior: 'smooth' });
+    });
+  });
+
+  const categoryRail = document.querySelector('#category-rail');
+  const activeCategory = document.querySelector('#active-category');
+  document.querySelectorAll('[data-category]').forEach(function (button) {
+    button.addEventListener('click', function () {
+      document.querySelectorAll('[data-category]').forEach((item) => item.classList.remove('selected'));
+      button.classList.add('selected');
+      if (activeCategory) activeCategory.textContent = button.dataset.category;
+      showToast(button.dataset.category + ' : sélection activée');
+    });
+  });
+
+  if (categoryRail && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    window.setInterval(function () {
+      const maxScroll = categoryRail.scrollWidth - categoryRail.clientWidth;
+      const next = categoryRail.scrollLeft + 180;
+      categoryRail.scrollTo({ left: next >= maxScroll ? 0 : next, behavior: 'smooth' });
+    }, 4200);
+  }
+
+  const productRail = document.querySelector('#product-rail');
+  if (productRail && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    let productAutoScroll;
+
+    const moveProducts = function () {
+      const maxScroll = productRail.scrollWidth - productRail.clientWidth;
+      const next = productRail.scrollLeft + 343;
+      productRail.scrollTo({ left: next >= maxScroll - 4 ? 0 : next, behavior: 'smooth' });
+    };
+
+    const startProductAutoScroll = function () {
+      window.clearInterval(productAutoScroll);
+      productAutoScroll = window.setInterval(moveProducts, 3500);
+    };
+
+    productRail.addEventListener('mouseenter', () => window.clearInterval(productAutoScroll));
+    productRail.addEventListener('mouseleave', startProductAutoScroll);
+    productRail.addEventListener('focusin', () => window.clearInterval(productAutoScroll));
+    productRail.addEventListener('focusout', startProductAutoScroll);
+    startProductAutoScroll();
+  }
+
+  document.querySelectorAll('[data-favorite]').forEach(function (button) {
+    button.addEventListener('click', function () {
+      const liked = button.classList.toggle('liked');
+      button.textContent = liked ? '♥' : '♡';
+      button.setAttribute('aria-label', liked ? 'Retirer des favoris' : 'Ajouter aux favoris');
+      showToast(liked ? 'Ajouté à vos favoris.' : 'Retiré de vos favoris.');
+    });
+  });
+
+  document.querySelectorAll('[data-toast]').forEach(function (button) {
+    button.addEventListener('click', function () { showToast(button.dataset.toast); });
+  });
+
+  document.querySelector('[data-focus-search]')?.addEventListener('click', function () {
+    document.querySelector('#search-input')?.focus();
+  });
+
+  document.querySelector('#newsletter-form')?.addEventListener('submit', function (event) {
+    event.preventDefault();
+    showToast('Vous êtes sur la liste. À très vite !');
+    event.currentTarget.reset();
+  });
+
+  document.querySelector('#search-input')?.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      showToast('Recherche prête à être connectée à votre catalogue.');
+    }
+  });
+})();

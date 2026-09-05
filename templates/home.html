@@ -1,0 +1,61 @@
+{% load static %}
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jordy Cap — Les pièces qui font bouger la journée</title>
+  <meta name="description" content="Jordy Cap sélectionne des casquettes et accessoires qui donnent du caractère à votre style.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/modavibe.css' %}">
+  <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+  <div class="announcement-bar"><div class="announcement-inner"><span class="announcement-dot"></span><span>decouvrez nos articles a moindre coup</span><a href="#selection">Découvrir <span>↘</span></a></div></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="Jordy Cap, retour en haut"><img class="brand-mark" src="{% static 'media/jordy-cap-logo.png' %}" alt="Jordy Cap"></a>
+      <nav class="main-nav" id="main-nav" aria-label="Navigation principale"><a class="active" href="#selection">La sélection</a><a href="#categories">Catégories</a><a href="#histoire">Notre histoire</a><a class="login-link" href="{% url 'account:login' %}">Connexion</a></nav>
+      <div class="header-actions"><button class="icon-button search-trigger" data-focus-search aria-label="Rechercher">⌕</button><button class="icon-button bag-trigger" data-toast="Votre sélection est prête à être explorée." aria-label="Voir le panier">♧<span class="bag-count">2</span></button><button class="menu-button" data-menu-toggle aria-label="Ouvrir le menu"><span>☰</span></button></div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero-section">
+      <div class="hero-copy"><div class="eyebrow">✦ La sélection du moment</div><h1>Les pièces<br><em>qui font</em> bouger<br>la journée.</h1><p>Des casquettes et accessoires choisis pour donner du caractère à vos essentiels. Livraison simple, style immédiat.</p><div class="hero-actions"><a class="primary-button" href="#selection">Voir la sélection <span>→</span></a><a class="text-link" href="#histoire">Pourquoi Jordy Cap <span>↘</span></a></div><div class="hero-proof"><div class="proof-avatars"><span>JC</span><span>+</span><span>24</span></div><p><strong>Une sélection qui change</strong><br>au fil de vos envies.</p></div></div>
+      <div class="hero-visual"><div class="hero-frame"><video class="hero-video" autoplay muted loop playsinline preload="metadata" aria-label="Présentation vidéo Jordy Cap"><source src="{% static 'media/home.mp4' %}" type="video/mp4">Votre navigateur ne prend pas en charge la vidéo.</video><div class="hero-label hero-label-top"><span>01</span> Éditorial solaire</div><div class="hero-label hero-label-bottom"><span>Choisi pour vous</span> ↗</div></div><div class="hero-sticker"><span>NEW<br>DROP</span><strong>↘</strong></div><div class="hero-orbit"></div></div>
+    </section>
+
+    <section class="category-section" id="categories"><div class="section-heading compact-heading"><div><span class="section-kicker">Choisir son terrain</span><h2>Explorez par <em>style.</em></h2></div><div class="rail-controls"><button class="rail-button" data-scroll="category-rail" data-direction="prev" aria-label="Catégories précédentes">←</button><button class="rail-button filled" data-scroll="category-rail" data-direction="next" aria-label="Catégories suivantes">→</button></div></div><div class="category-rail" id="category-rail" tabindex="0">{% for style in styles %}<button class="category-pill {{ style.color }}" data-category="{{ style.name }}"><span class="category-icon">{{ style.icon }}</span><span>{{ style.name }}</span><span>↗</span></button>{% endfor %}</div><div class="category-status"><span class="status-line"></span> Filtre actif : <strong id="active-category">Tous</strong></div></section>
+
+    <section class="flash-section" id="selection"><div class="flash-topline"><div class="flash-title-wrap"><span class="sun-tag">♢ Vente flash</span><h2>Decouvrez<br><em></em></h2><p></p></div><div class="flash-note"><span>Jusqu’à</span><strong>-30%</strong><span>sur la sélection</span></div></div><div class="product-rail-wrap"><div class="rail-controls product-controls"><button class="rail-button light" data-scroll="product-rail" data-direction="prev" aria-label="Produits précédents">←</button><button class="rail-button light filled" data-scroll="product-rail" data-direction="next" aria-label="Produits suivants">→</button></div><div class="product-rail" id="product-rail" tabindex="0">
+      {% for product in products %}
+      <article class="product-card"><div class="product-image tone-{{ product.tone|default:'coral' }}"><img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/product-placeholder.jpg' %}{% endif %}" alt="{{ product.name }}"><span class="discount-badge">{{ product.discount|default:'-30%' }}</span><button class="heart-button" data-favorite aria-label="Ajouter {{ product.name }} aux favoris">♡</button></div><div class="product-info"><span class="product-category">{% if product.style %}{{ product.style.name }}{% else %}{{ product.category|default:'Mode · Sélection' }}{% endif %}</span><h3>{{ product.name|default:'Casquette Solaire' }}</h3><div class="price-row"><strong>{{ product.price|default:'12 500 FCFA' }}</strong><del>{{ product.old_price|default:'18 000 FCFA' }}</del></div><a class="product-link" href="https://wa.me/{{ whatsapp_number|default:'' }}" target="_blank" rel="noreferrer">Commander via WhatsApp ↗</a></div></article>
+      {% empty %}
+      <article class="product-card"><div class="product-image tone-coral"><img src="{% static 'images/product-placeholder.jpg' %}" alt="Produit Jordy Cap"><span class="discount-badge">-30%</span><button class="heart-button" data-favorite aria-label="Ajouter le produit aux favoris">♡</button></div><div class="product-info"><span class="product-category">Mode · Sélection</span><h3>Casquette Solaire</h3><div class="price-row"><strong>12 500 FCFA</strong><del>18 000 FCFA</del></div><a class="product-link" href="https://wa.me/{{ whatsapp_number|default:'' }}" target="_blank" rel="noreferrer">Commander via WhatsApp ↗</a></div></article>
+      {% endfor %}
+    </div></div></section>
+
+    <section class="story-section" id="histoire"><div class="story-sign"><span>JC</span><span>25</span></div><div class="story-copy"><span class="section-kicker">L’énergie Jordy Cap</span><h2>Pas besoin<br>d’en faire <em>trop.</em></h2><p>On repère les casquettes et accessoires qui ont ce petit supplément d’allure, on les rassemble au même endroit, et on vous laisse choisir ce qui vous ressemble.</p><a class="text-link dark-link" href="#top">Découvrir Jordy Cap →</a></div><div class="story-list"><div><span>01</span><p>Des pièces choisies<br><strong>avec intention.</strong></p><span>✓</span></div><div><span>02</span><p>Des offres claires<br><strong>sans détour.</strong></p><span>✓</span></div><div><span>03</span><p>Un achat simple<br><strong>et humain.</strong></p><span>✓</span></div></div></section>
+
+    <section class="newsletter-section"><div class="newsletter-inner"><div><span class="section-kicker">Le bon signal</span><h2>Les nouveautés,<br><em>pas de spam.</em></h2></div><form id="newsletter-form"><label for="email">Votre adresse email</label><div class="email-field"><input id="email" type="email" placeholder="bonjour@vous.com" required><button type="submit" aria-label="S'inscrire">→</button></div><small>Une sélection courte, directement dans votre boîte.</small></form></div></section>
+  </main>
+
+  <footer class="site-footer"><div class="footer-top"><div class="footer-brand"><a class="brand" href="#top"><img class="brand-mark" src="{% static 'media/jordy-cap-logo.png' %}" alt="Jordy Cap"></a><p>Le style se trouve<br>dans les détails.</p></div><div class="search-block"><label for="search-input">Vous cherchez quelque chose ?</label><div class="footer-search">⌕<input id="search-input" placeholder="Rechercher une pièce..."></div></div><div class="footer-links"><div><span>Suivez-nous</span><a href="#top">Instagram</a><a href="#top">TikTok</a></div><div><span>La maison</span><a href="#histoire">Notre histoire</a><a href="#selection">Les sélections</a></div></div></div><div class="footer-bottom"><span>© {% now 'Y' %} Jordy Cap</span><span>Tous droits reservés</span><a href="#top">Retour en haut ↗</a></div></footer>
+  <a class="whatsapp-float"
+   href="https://wa.me/?text=Bonjour%20Jordy%20Cap%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20un%20article."
+   target="_blank"
+   rel="noopener noreferrer"
+   aria-label="Contacter Jordy Cap sur WhatsApp">
+
+    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+
+</a>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="{% static 'js/modavibe.js' %}"></script>
+</body>
+</html>

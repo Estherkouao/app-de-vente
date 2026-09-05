@@ -1,0 +1,98 @@
+{% load static %}
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de bord | Jordy Cap</title>
+  <link rel="stylesheet" href="{% static 'css/modavibe.css' %}">
+  <style>
+    :root { --dashboard-ink: #1d2725; --dashboard-muted: #69736e; --dashboard-line: #ded7cc; --dashboard-paper: #fffaf3; --dashboard-coral: #f05a47; --dashboard-blue: #2351a5; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f7f1e8; color: var(--dashboard-ink); font-family: Manrope, sans-serif; }
+    .dashboard { min-height: 100vh; padding: 30px 24px 70px; background: radial-gradient(circle at 12% 0%, #fffaf3 0, #f7f1e8 38%, #eee7dc 100%); }
+    .dashboard-inner { width: min(1180px, 100%); margin: auto; }
+    .dashboard-head { display: flex; align-items: end; justify-content: space-between; gap: 28px; margin-bottom: 34px; padding: 10px 0 26px; border-bottom: 1px solid var(--dashboard-line); }
+    .dashboard-head img { display: block; width: 154px; height: 58px; object-fit: contain; object-position: left center; }
+    .dashboard-head h1 { margin: 14px 0 0; color: var(--dashboard-ink); font-family: 'DM Sans', sans-serif; font-size: clamp(30px, 4vw, 50px); font-style: italic; letter-spacing: -.04em; line-height: .98; }
+    .dashboard-actions { display: flex; align-items: center; gap: 18px; padding-bottom: 5px; }
+    .dashboard-actions a, .dashboard-actions button { font-size: 11px; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; }
+    .dashboard-actions a { color: var(--dashboard-blue); }
+    .dashboard-actions button { padding: 12px 16px; border: 0; border-radius: 999px; background: var(--dashboard-coral); color: #fffaf3; cursor: pointer; }
+      .dashboard-counters { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+      .dashboard-counter { padding: 18px; border: 1px solid rgba(222,215,204,.9); border-radius: 14px; background: rgba(255,250,243,.75); }
+      .dashboard-counter strong { display: block; color: var(--dashboard-ink); font-family: 'DM Sans', sans-serif; font-size: 30px; line-height: 1; }
+      .dashboard-counter span { display: block; margin-top: 7px; color: var(--dashboard-muted); font-size: 10px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+    .dashboard-grid { display: grid; grid-template-columns: minmax(260px, .78fr) minmax(360px, 1.22fr); gap: 20px; }
+    .dashboard-panel { padding: 26px; border: 1px solid rgba(222,215,204,.9); border-radius: 18px; background: rgba(255,250,243,.82); box-shadow: 0 14px 35px rgba(29,39,37,.06); }
+    .dashboard-panel h2 { margin: 0 0 8px; color: var(--dashboard-ink); font-family: 'DM Sans', sans-serif; font-size: 25px; letter-spacing: -.03em; }
+    .dashboard-panel > p { margin: 0 0 22px; color: var(--dashboard-muted); font-size: 12px; line-height: 1.55; }
+    .dashboard-form p { margin: 0 0 14px; }
+    .dashboard-form label { display: block; margin-bottom: 7px; color: var(--dashboard-ink); font-size: 11px; font-weight: 900; }
+    .dashboard-form input:not([type="checkbox"]), .dashboard-form select { width: 100%; min-height: 43px; padding: 0 12px; border: 1px solid var(--dashboard-line); border-radius: 9px; outline: 0; background: #fffdf9; color: var(--dashboard-ink); }
+    .dashboard-form input:not([type="checkbox"]):focus, .dashboard-form select:focus { border-color: var(--dashboard-blue); box-shadow: 0 0 0 3px rgba(35,81,165,.1); }
+    .dashboard-form input[type="checkbox"] { width: auto; min-height: auto; accent-color: var(--dashboard-coral); }
+    .dashboard-form button { min-height: 44px; margin-top: 4px; padding: 0 19px; border: 0; border-radius: 999px; background: var(--dashboard-coral); color: #fffaf3; cursor: pointer; font-size: 11px; font-weight: 900; letter-spacing: .04em; }
+    .dashboard-list { grid-column: 1 / -1; overflow: hidden; }
+    .dashboard-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .dashboard-table th, .dashboard-table td { padding: 14px 10px; border-bottom: 1px solid var(--dashboard-line); text-align: left; }
+    .dashboard-table th { color: var(--dashboard-muted); font-size: 10px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+    .dashboard-table td { color: var(--dashboard-ink); }
+    .dashboard-table td a { color: var(--dashboard-blue); font-weight: 800; }
+      .dashboard-table .delete-link { color: var(--dashboard-coral); }
+    .dashboard-table tbody tr:hover { background: rgba(240,90,71,.05); }
+    .dashboard-message { margin-bottom: 20px; padding: 13px 15px; border-left: 4px solid #6a9d76; border-radius: 8px; background: #e2ece5; color: var(--dashboard-ink); font-size: 12px; }
+    @media (max-width: 760px) { .dashboard { padding: 20px 16px 45px; } .dashboard-head { align-items: flex-start; flex-direction: column; } .dashboard-actions { width: 100%; justify-content: space-between; } .dashboard-grid { grid-template-columns: 1fr; } .dashboard-list { grid-column: auto; overflow-x: auto; } .dashboard-table { min-width: 560px; } }
+    @media (max-width: 760px) { .dashboard { padding: 20px 16px 45px; } .dashboard-head { align-items: flex-start; flex-direction: column; } .dashboard-actions { width: 100%; justify-content: space-between; } .dashboard-counters { grid-template-columns: repeat(2, 1fr); } .dashboard-grid { grid-template-columns: 1fr; } .dashboard-list { grid-column: auto; overflow-x: auto; } .dashboard-table { min-width: 620px; } }
+  </style>
+</head>
+<body>
+  <main class="dashboard">
+    <div class="dashboard-inner">
+      <header class="dashboard-head">
+        <div><img src="{% static 'media/jordy-cap-logo.png' %}" alt="Jordy Cap"><h1>Tableau de bord</h1></div>
+        <div class="dashboard-actions"><a href="{% url 'home' %}">Voir le site ↗</a><form method="post" action="{% url 'account:logout' %}">{% csrf_token %}<button type="submit">Se déconnecter</button></form></div>
+      </header>
+      {% for message in messages %}<div class="dashboard-message">{{ message }}</div>{% endfor %}
+            <section class="dashboard-counters" aria-label="Résumé du catalogue">
+              <div class="dashboard-counter"><strong>{{ style_count }}</strong><span>Styles</span></div>
+              <div class="dashboard-counter"><strong>{{ product_count }}</strong><span>Articles</span></div>
+              <div class="dashboard-counter"><strong>{{ active_style_count }}</strong><span>Styles actifs</span></div>
+              <div class="dashboard-counter"><strong>{{ active_product_count }}</strong><span>Articles actifs</span></div>
+            </section>
+      <div class="dashboard-grid">
+        <section class="dashboard-panel">
+          <h2>Explorer par style</h2>
+          <p>Ajoute ou modifie les catégories visibles sur la page d’accueil.</p>
+          <form class="dashboard-form" method="post">
+            {% csrf_token %}<input type="hidden" name="form_type" value="style">
+            {{ style_form.as_p }}
+            <button type="submit">Enregistrer le style</button>
+          </form>
+        </section>
+        <section class="dashboard-panel">
+          <h2>Enregistrer un article</h2>
+          <p>Chaque article est rattaché à un style de la section Explorer.</p>
+          <form class="dashboard-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}<input type="hidden" name="form_type" value="product">
+            {{ product_form.as_p }}
+            <button type="submit">Enregistrer l’article</button>
+          </form>
+        </section>
+        <section class="dashboard-panel dashboard-list">
+          <h2>Styles enregistrés</h2>
+          <table class="dashboard-table"><thead><tr><th>Style</th><th>Couleur</th><th>Ordre</th><th>Actif</th><th></th></tr></thead><tbody>
+            {% for style in styles %}<tr><td>{{ style.icon }} {{ style.name }}</td><td>{{ style.color }}</td><td>{{ style.order }}</td><td>{% if style.active %}Oui{% else %}Non{% endif %}</td><td><a href="{% url 'account:edit_style' style.pk %}">Modifier</a><form method="post" action="{% url 'account:delete_style' style.pk %}" style="display:inline" onsubmit="return confirm('Supprimer ce style et ses articles ?');">{% csrf_token %}<button class="delete-link" type="submit">Supprimer</button></form></td></tr>{% empty %}<tr><td colspan="5">Aucun style enregistré.</td></tr>{% endfor %}
+          </tbody></table>
+        </section>
+        <section class="dashboard-panel dashboard-list">
+          <h2>Articles enregistrés</h2>
+          <table class="dashboard-table"><thead><tr><th>Article</th><th>Style</th><th>Prix</th><th>Actif</th><th></th></tr></thead><tbody>
+            {% for product in products %}<tr><td>{{ product.name }}</td><td>{{ product.style.name }}</td><td>{{ product.price }}</td><td>{% if product.active %}Oui{% else %}Non{% endif %}</td><td><a href="{% url 'account:edit_product' product.pk %}">Modifier</a><form method="post" action="{% url 'account:delete_product' product.pk %}" style="display:inline" onsubmit="return confirm('Supprimer cet article ?');">{% csrf_token %}<button class="delete-link" type="submit">Supprimer</button></form></td></tr>{% empty %}<tr><td colspan="5">Aucun article enregistré.</td></tr>{% endfor %}
+          </tbody></table>
+        </section>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
