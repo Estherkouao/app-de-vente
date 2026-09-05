@@ -64,33 +64,51 @@
   });
 
   if (categoryRail && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    window.setInterval(function () {
+    let categoryAutoScroll;
+    const moveCategory = function () {
       const maxScroll = categoryRail.scrollWidth - categoryRail.clientWidth;
+      if (maxScroll <= 0) return;
       const next = categoryRail.scrollLeft + 180;
       categoryRail.scrollTo({ left: next >= maxScroll ? 0 : next, behavior: 'smooth' });
-    }, 4200);
+    };
+    const startCategoryAutoScroll = function () {
+      window.clearInterval(categoryAutoScroll);
+      categoryAutoScroll = window.setInterval(moveCategory, 4200);
+    };
+    const stopCategoryAutoScroll = function () {
+      window.clearInterval(categoryAutoScroll);
+    };
+    startCategoryAutoScroll();
+    categoryRail.addEventListener('wheel', stopCategoryAutoScroll, { passive: true });
+    categoryRail.addEventListener('touchstart', stopCategoryAutoScroll, { passive: true });
+    categoryRail.addEventListener('mousedown', stopCategoryAutoScroll);
+    categoryRail.addEventListener('pointerdown', stopCategoryAutoScroll);
   }
 
   const productRail = document.querySelector('#product-rail');
   if (productRail && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     let productAutoScroll;
-
     const moveProducts = function () {
       const maxScroll = productRail.scrollWidth - productRail.clientWidth;
       const next = productRail.scrollLeft + 343;
       productRail.scrollTo({ left: next >= maxScroll - 4 ? 0 : next, behavior: 'smooth' });
     };
-
     const startProductAutoScroll = function () {
       window.clearInterval(productAutoScroll);
       productAutoScroll = window.setInterval(moveProducts, 3500);
     };
-
-    productRail.addEventListener('mouseenter', () => window.clearInterval(productAutoScroll));
-    productRail.addEventListener('mouseleave', startProductAutoScroll);
-    productRail.addEventListener('focusin', () => window.clearInterval(productAutoScroll));
-    productRail.addEventListener('focusout', startProductAutoScroll);
+    const stopProductAutoScroll = function () {
+      window.clearInterval(productAutoScroll);
+    };
     startProductAutoScroll();
+    productRail.addEventListener('mouseenter', stopProductAutoScroll);
+    productRail.addEventListener('mouseleave', stopProductAutoScroll);
+    productRail.addEventListener('focusin', stopProductAutoScroll);
+    productRail.addEventListener('focusout', stopProductAutoScroll);
+    productRail.addEventListener('wheel', stopProductAutoScroll, { passive: true });
+    productRail.addEventListener('touchstart', stopProductAutoScroll, { passive: true });
+    productRail.addEventListener('mousedown', stopProductAutoScroll);
+    productRail.addEventListener('pointerdown', stopProductAutoScroll);
   }
 
   document.querySelectorAll('[data-favorite]').forEach(function (button) {
