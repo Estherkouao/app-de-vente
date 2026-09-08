@@ -36,7 +36,18 @@
       {% for product in products %}
       <article class="product-card" data-product-style="{% if product.style %}{{ product.style.name }}{% else %}{{ product.category|default:'Mode' }}{% endif %}"><div class="product-image tone-{{ product.tone|default:'coral' }}"><img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/product-placeholder.jpg' %}{% endif %}" alt="{{ product.name }}"><span class="discount-badge">{% if product.discount %}{% if product.discount|slice:'-1' == '%' %}{{ product.discount }}{% else %}{{ product.discount }}%{% endif %}{% else %}-30%{% endif %}</span><button class="heart-button" data-favorite aria-label="Ajouter {{ product.name }} aux favoris">♡</button></div><div class="product-info"><span class="product-category">{% if product.style %}{{ product.style.name }}{% else %}{{ product.category|default:'Mode · Sélection' }}{% endif %}</span><h3>{{ product.name|default:'Casquette Solaire' }}</h3><div class="price-row"><strong>{{ product.price|default:'12 500 FCFA' }}</strong><del>{{ product.old_price|default:'18 000 FCFA' }}</del></div><a class="product-link" href="https://wa.me/{{ whatsapp_number|default:'' }}" target="_blank" rel="noreferrer">Commander via WhatsApp ↗</a></div></article>
       {% empty %}
-      <article class="product-card" data-product-style="Mode"><div class="product-image tone-coral"><img src="{% static 'images/product-placeholder.jpg' %}" alt="Produit Jordy Cap"><span class="discount-badge">-30%</span><button class="heart-button" data-favorite aria-label="Ajouter le produit aux favoris">♡</button></div><div class="product-info"><span class="product-category">Mode · Sélection</span><h3>Casquette Solaire</h3><div class="price-row"><strong>12 500 FCFA</strong><del>18 000 FCFA</del></div><a class="product-link" href="https://wa.me/{{ whatsapp_number|default:'' }}" target="_blank" rel="noreferrer">Commander via WhatsApp ↗</a></div></article>
+      <article class="product-card" data-product-style="Mode"><div class="product-image tone-coral"><img src="{% static 'images/product-placeholder.jpg' %}" alt="Produit Jordy Cap"><span class="discount-badge">-30%</span><button class="heart-button" data-favorite aria-label="Ajouter le produit aux favoris">♡</button></div><div class="product-info"><span class="product-category">Mode · Sélection</span><h3>Casquette Solaire</h3><div class="price-row"><strong>12 500 FCFA</strong><del>18 000 FCFA</del></div><a
+          class="product-link whatsapp-order"
+          href="#"
+          data-product-name="{{ product.name|default:'Casquette Solaire' }}"
+          data-product-price="{{ product.price|default:'12 500 FCFA' }}"
+          data-product-old-price="{{ product.old_price|default:'18 000 FCFA' }}"
+          data-product-discount="{% if product.discount %}{{ product.discount }}{% else %}-30%{% endif %}"
+          data-product-image="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/product-placeholder.jpg' %}{% endif %}"
+      >
+          Commander via WhatsApp ↗
+         </a></div>
+      </article>
       {% endfor %}
     </div></div></section>
 
@@ -47,7 +58,7 @@
 
   <footer class="site-footer"><div class="footer-top"><div class="footer-brand"><a class="brand" href="#top"><img class="brand-mark" src="{% static 'media/jordy-cap-logo.png' %}" alt="Jordy Cap"></a><p>Le style se trouve<br>dans les détails.</p></div><div class="search-block"><label for="search-input">Vous cherchez quelque chose ?</label><div class="footer-search">⌕<input id="search-input" placeholder="Rechercher une pièce..."></div></div><div class="footer-links"><div><span>Suivez-nous</span><a href="#top">Instagram</a><a href="#top">TikTok</a></div><div><span>La maison</span><a href="#histoire">Notre histoire</a><a href="#selection">Les sélections</a></div></div></div><div class="footer-bottom"><span>© {% now 'Y' %} Jordy Cap</span><span>Tous droits reservés</span><a href="#top">Retour en haut ↗</a></div></footer>
   <a class="whatsapp-float"
-   href="https://wa.me/+2250712687635?text=Bonjour%20Jordy%20Cap%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20un%20article."
+   href="https://wa.me/+2250153183316?text=Bonjour%20Jordy%20Cap%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20un%20article."
    target="_blank"
    rel="noopener noreferrer"
    aria-label="Contacter Jordy Cap sur WhatsApp">

@@ -26,7 +26,7 @@ def home(request):
 	return render(request, "home.html", {
 		"styles": styles or DEFAULT_STYLES,
 		"products": products or DEFAULT_PRODUCTS,
-		"whatsapp_number": "+2250712687635",
+		"whatsapp_number": "+2250153183316",
 		"active_filter": request.GET.get("style", ""),
 	})
 

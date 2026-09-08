@@ -141,3 +141,49 @@
     }
   });
 })();
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const whatsappNumber = "{{ whatsapp_number|default:'' }}";
+
+    document.querySelectorAll(".whatsapp-order").forEach(function (button) {
+
+        button.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            const name = this.dataset.productName;
+            const price = this.dataset.productPrice;
+            const oldPrice = this.dataset.productOldPrice;
+            const discount = this.dataset.productDiscount;
+            const image = this.dataset.productImage;
+
+            const message =
+`Bonjour 👋
+
+Je souhaite commander cet article :
+
+🛍️ Produit : ${name}
+💰 Prix : ${price}
+🏷️ Ancien prix : ${oldPrice}
+🔥 Remise : ${discount}
+
+🖼️ Image du produit :
+${image}
+
+Merci de me confirmer la disponibilité.`;
+
+            const whatsappUrl =
+                "https://wa.me/" +
+                whatsappNumber +
+                "?text=" +
+                encodeURIComponent(message);
+
+            window.open(whatsappUrl, "_blank");
+        });
+
+    });
+
+});
