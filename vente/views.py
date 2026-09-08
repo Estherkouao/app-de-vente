@@ -24,8 +24,8 @@ def home(request):
 	styles = list(Style.objects.filter(active=True))
 	products = list(Product.objects.filter(active=True).select_related("style"))
 	return render(request, "home.html", {
-		"styles": styles or DEFAULT_STYLES,
-		"products": products or DEFAULT_PRODUCTS,
+		"styles": styles,
+		"products": products,
 		"whatsapp_number": "+2250153183316",
 		"active_filter": request.GET.get("style", ""),
 	})
@@ -39,8 +39,8 @@ def filter_products(request):
 	else:
 		products = list(Product.objects.filter(active=True).select_related("style"))
 	return render(request, "home.html", {
-		"styles": styles or DEFAULT_STYLES,
-		"products": products or DEFAULT_PRODUCTS,
+		"styles": styles,
+		"products": products,
 		"whatsapp_number": "+2250700000000",
 		"active_filter": style_name,
 	})
